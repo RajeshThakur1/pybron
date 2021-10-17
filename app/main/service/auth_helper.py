@@ -20,7 +20,8 @@ class Auth:
                     if auth_token:
                         data = {
                             'username': user.username,
-                            'email':user.email, 
+                            'email':user.email,
+                            'role': user.role,
                             'Authorization': auth_token
                         }
                         return apiresponse("true",'Successfully logged in', "null", data), 200
@@ -63,7 +64,8 @@ class Auth:
                         'username': user.username,
                         'email' : user.email,
                         'role': user.role,
-                        'registered_on': str(user.registered_on)
+                        'registered_on': str(user.registered_on),
+                        'id' : user.id
                     }
                     return apiresponse("true", 'Logged in User Found','null' ,data), 200
                 return apiresponse('false', 'Invalid User Please Login First', resp, 'null'), 401

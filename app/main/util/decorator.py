@@ -3,7 +3,8 @@ from flask import request
 from flask.wrappers import Response
 
 from app.main.service.auth_helper import Auth
-from app.main.util.apiResponse import apiresponse
+from app.main.util.apiResponse import apiresponse, ApiResponse
+
 
 def token_required(f):
     @wraps(f)
@@ -11,12 +12,19 @@ def token_required(f):
 
         response, status = Auth.get_logged_in_user(request)
         token = response.get('data')
-        if token == 'null':
+
+        if token == None:
             return response, status
+
+        # role = token['role']
+        # if role != 'user':
+        #     response_object = ApiResponse(False, "Customer access Required", None, "User is not Customer")
+        #     return response_object.__dict__, 403
 
         return f(*args, **kwargs)
 
     return decorated
+
 
 def admin_token_required(f):
     @wraps(f)
